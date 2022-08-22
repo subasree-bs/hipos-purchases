@@ -5,15 +5,10 @@ import MuiAccordion from "@mui/material/Accordion";
 import MuiAccordionSummary from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import { Typography,Container,Select,Checkbox,FormControl,MenuItem, Grid, InputLabel, Box, Button,
-   Menu,TableSortLabel,Tooltip,Avatar,Divider,Toolbar,Table,TableBody,
+import { Typography,Container,Select,FormControl,MenuItem, Grid, InputLabel, Box, Button,
+   Menu,Tooltip,Toolbar,Table,TableBody,
    TableCell,TableContainer,TableHead,TableRow,Paper,Dialog,DialogTitle,
    DialogContent,DialogActions,tableCellClasses} from "@mui/material";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
 import HourglassFullIcon from "@mui/icons-material/HourglassFull";
 import ViewInArIcon from "@mui/icons-material/ViewInAr";
 import AddIcon from "@mui/icons-material/Add";
@@ -31,7 +26,7 @@ import { FaFileCsv, FaPrint, FaFilePdf, FaEdit, FaEye, FaTrash,
 import { AiFillFileExcel } from "react-icons/ai";
 import { visuallyHidden } from "@mui/utils";
 import {Link} from "react-router-dom";
-import {prodStyle, prodList} from "./PurchaseStyle";
+import {purchaseStyle, purchaseList} from "./PurchaseStyle";
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -98,202 +93,15 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-//All Products Table createData function
-function createData( productimage, action, product, businesslocation, upprice, 
-  sprice, currentstock, producttype, category, brand, tax, sku, cf1, cf2, cf3, cf4)
-   {
-  return { productimage, action, product, businesslocation, upprice, 
-    sprice, currentstock, producttype, category, brand, tax, sku, cf1, cf2, cf3, cf4,
-  };
-}
-
-//All Products Table rows 
-const rows = [
-  createData( "dfgh", "", "Cupcake1", "Cupcake2", "Cupcake3", "Cupcake4", "Cupcake5", 
-  "Cupcake6", "Cupcake7", "Cupcake8", "Cupcake9", 67, 4.3, 69, 46, 78, 89),
-  createData( "efgh", "", "Chocolate", "Cake2", "Cake3", "Cake4", "Cake5", "Cake6", "Cake7", 
-  "Cake8", "Cake9", 97, 9.3, 99, 96, 98, 99),
-  createData( "jfgh", "", "Cake1", "Cake2", "Cake3", "Cake4", "Cake5", "Cake6", "Cake7", 
-  "Cake8", "Cake9", 37, 3.3, 39, 36, 38, 39),
-];
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
-const headCells = [
-  { id: "productimage", numeric: false, disablePadding: true, label: "", },
-  { id: "action", numeric: false, disablePadding: true, label: "Action", },
-  { id: "product", numeric: false, disablePadding: false, label: "Product", },
-  { id: "businesslocation", numeric: false, disablePadding: false, label: "Business Location", },
-  { id: "upprice", numeric: false, disablePadding: false, label: "Unit Purchase Price", },
-  { id: "sprice", numeric: false, disablePadding: false, label: "Selling Price", },
-  { id: "currentstock", numeric: false, disablePadding: false, label: "Current Stock", },
-  { id: "producttype", numeric: false, disablePadding: false, label: "Product Type", },
-  { id: "category", numeric: false, disablePadding: false, label: "Category", },
-  { id: "brand", numeric: false, disablePadding: false, label: "Brand", },
-  { id: "tax", numeric: false, disablePadding: false, label: "Tax", },
-  { id: "sku", numeric: true, disablePadding: false, label: "SKU", },
-  { id: "cf1", numeric: true, disablePadding: false, label: "Custom Field1", },
-  { id: "cf2", numeric: true, disablePadding: false, label: "Custom Field2", },
-  { id: "cf3", numeric: true, disablePadding: false, label: "Custom Field3", },
-  { id: "cf4", numeric: true, disablePadding: false, label: "Custom Field4", },
-];
-
-
-// All Products Table Head function
-function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort,} = props;
-  const createSortHandler = (property) => (event) => {onRequestSort(event, property); };
-
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              "aria-label": "select all desserts",
-            }}
-          />
-        </TableCell>
-        {headCells.map((headCell) => (
-          <TableCell
-            sx={{
-              fontWeight: "600",
-              fontSize: "14px",
-              color: "black",
-            }}
-            key={headCell.id}
-            align="center"
-            padding={headCell.disablePadding ? "none" : "normal"}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
-
-const EnhancedTableToolbar = (props) => {
-  const { numSelected } = props;
-
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(
-              theme.palette.secondary.main,
-              theme.palette.action.activatedOpacity
-            ),
-        }),
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: "1 1 100%", fontSize: "20px" }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: "1 1 100%" }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        ></Typography>
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton></IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
-};
-
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-};
-
-
-
 // Table 2 - Stock Report - Row creation function
-function createData2( sr_sku, sr_product, sr_location, sr_unitprice, sr_currentstock, 
-  sr_currentstock_pp, sr_currentstock_sp, sr_potentialprofit, sr_totalunitsold, 
-  sr_totalunittransferred, sr_totalunitadjusted) 
+function createData2( action,date,referenceNo,unitLocation,supplier,purchaseStatus,paymentStatus,grandTotal,paymentDue,addedBy,) 
   {
-  return { sr_sku, sr_product, sr_location, sr_unitprice, sr_currentstock, 
-    sr_currentstock_pp, sr_currentstock_sp, sr_potentialprofit, sr_totalunitsold, 
-    sr_totalunittransferred, sr_totalunitadjusted,
-  };
-}
+  return { action,date,referenceNo,unitLocation,supplier,purchaseStatus,paymentStatus,grandTotal,paymentDue,addedBy,};
+  }
 
 const rows2 = [
-  createData2( "Frozen yoghurt", 159, 6.0, 24, 4.0, "Frozen yoghurt", 159, 6.0, 24, 4.0, 78 ),
-  createData2( "Ice cream sandwich", 237, 9.0, 37, 4.3, "Ice cream sandwich", 237, 9.0, 37, 4.3, 79 ),
+  createData2( "Frozen yoghurt", 159, 6.0, 24, 4.0, "Frozen yoghurt", 159, 6.0, 24, 4.0, ),
+  createData2( "Ice cream sandwich", 237, 9.0, 37, 4.3, "Ice cream sandwich", 237, 9.0, 37, 4.3, ),
 ];
 
 //View Group Prices Modal Tags
@@ -370,62 +178,8 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 export default function CustomizedAccordions() {
 
 // Filter - All Select Inputs
-const [productFilter, setProductFilter] = useState({ProductType: "",Category: "",Unit:"",Tax:"",Brand:"",BusinessLocation:"",Status:""})
-
-// Table 1 - All Products
-  const [order, setOrder] = useState("asc");
-  const [orderBy, setOrderBy] = useState("product");
-  const [selected, setSelected] = useState([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(25);
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelected = rows.map((n) => n.product);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event, product) => {
-    const selectedIndex = selected.indexOf(product);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, product);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 25));
-    setPage(0);
-  };
-
-  const isSelected = (product) => selected.indexOf(product) !== -1;
-
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+const [purchaseFilter, setPurchaseFilter] = useState({BusinessLocation:"",Supplier: "",
+PurchaseStatus: "",PaymentStatus:"",})
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -435,20 +189,6 @@ const [productFilter, setProductFilter] = useState({ProductType: "",Category: ""
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-
-// Table 1 - Plugin
-  $(document).ready(function () {
-    setTimeout(function () {
-      $("#example").DataTable({
-        language: { search: "", searchPlaceholder: "Search..." },
-        lengthMenu: [25, 50, 100, 200, 500, 1000],
-        retrieve: true,
-      });
-    }, 1000);
-  });
-
-
 
 // Accordion expand  
   const [expanded, setExpanded] = useState("panel1");
@@ -502,32 +242,32 @@ const [productFilter, setProductFilter] = useState({ProductType: "",Category: ""
           <Accordion
             expanded={expanded === "panel1"}
             onChange={handleChangePanel("panel1")}
-            sx={ prodStyle.prod_container}
+            sx={ purchaseStyle.prodContainer}
           >
             <AccordionSummary
               aria-controls="panel1d-content"
               id="panel1d-header"
             >
               <Typography sx={{ color: " #7009AB" }}>
-                <FilterAltIcon /> Filter
+                <FilterAltIcon /> Filters
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Grid container spacing={2}>
                 
-              <Grid  item  md={3}  sm={6}  xs={10} sx={prodList.select_input} >
+              <Grid  item  md={3}  sm={6}  xs={10} sx={purchaseList.selectInput} >
                   <Typography>
-                    <FormControl sx={  prodList.select_formcontrol } size="small" fullWidth >
+                    <FormControl sx={  purchaseList.selectFormcontrol } size="small" fullWidth >
                       <InputLabel id="demo-select-small">
                         Business Location 
                       </InputLabel>
                       <Select
                         labelId="demo-select-small"
                         id="demo-select-small"
-                        value={productFilter.BusinessLocation}
+                        value={purchaseFilter.BusinessLocation}
                         label="Business Location"
                         onChange={(event) => {
-                          setProductFilter({...productFilter, BusinessLocation: event.target.value})
+                          setPurchaseFilter({...purchaseFilter, BusinessLocation: event.target.value})
                         }}
                       >
                         <MenuItem value="">All</MenuItem>
@@ -541,78 +281,82 @@ const [productFilter, setProductFilter] = useState({ProductType: "",Category: ""
                   </Typography>
                 </Grid>
 
-                <Grid  item  md={3}  sm={6}  xs={10} sx={prodList.select_input} >
+                <Grid  item  md={3}  sm={6}  xs={10} sx={purchaseList.selectInput} >
                   <Typography>
-                  <FormControl sx={ prodList.select_formcontrol } size="small" fullWidth >
-                      <InputLabel id="demo-select-small">Category</InputLabel>
+                  <FormControl sx={ purchaseList.selectFormcontrol } size="small" fullWidth >
+                      <InputLabel id="demo-select-small">Supplier</InputLabel>
                       <Select
                         labelId="demo-select-small"
                         id="demo-select-small"
-                        value={productFilter.Category}
-                        label="Category"
+                        value={purchaseFilter.Supplier}
+                        label="Supplier"
                         onChange={(event) => {
-                          setProductFilter({...productFilter, Category: event.target.value})
+                          setPurchaseFilter({...purchaseFilter, Supplier: event.target.value})
                         }}
                       >
-                        <MenuItem value="category_all">All</MenuItem>
+                        <MenuItem value={"supplier_all"}>All</MenuItem>
+                        <MenuItem value={"supplier_test"}>test - 11211(frf)</MenuItem>
                       </Select>
                     </FormControl>
                   </Typography>
                 </Grid>
 
-                <Grid  item  md={3}  sm={6}  xs={10} sx={prodList.select_input} >
+                <Grid  item  md={3}  sm={6}  xs={10} sx={purchaseList.selectInput} >
                   <Typography>
-                  <FormControl sx={ prodList.select_formcontrol } size="small" fullWidth >
-                      <InputLabel id="demo-select-small">Unit</InputLabel>
+                  <FormControl sx={ purchaseList.selectFormcontrol } size="small" fullWidth >
+                      <InputLabel id="demo-select-small">Purchase Status</InputLabel>
                       <Select
                         labelId="demo-select-small"
                         id="demo-select-small"
-                        value={productFilter.Unit}
-                        label="Unit"
+                        value={purchaseFilter.PurchaseStatus}
+                        label="Purchase Status"
                         onChange={(event) => {
-                          setProductFilter({...productFilter, Unit: event.target.value})
-                        }}
-                      >
-                        <MenuItem value="">All</MenuItem>
-                        <MenuItem value={"pieces"}>Pieces (Pc(s))</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Typography>
-                </Grid>
-
-                <Grid  item  md={3}  sm={6}  xs={10} sx={prodList.select_input} >
-                  <Typography>
-                  <FormControl sx={  prodList.select_formcontrol } size="small" fullWidth >
-                      <InputLabel id="demo-select-small">Tax</InputLabel>
-                      <Select
-                        labelId="demo-select-small"
-                        id="demo-select-small"
-                        value={productFilter.Tax}
-                        label="Tax"
-                        onChange={(event) => {
-                          setProductFilter({...productFilter, Tax: event.target.value})
+                          setPurchaseFilter({...purchaseFilter, PurchaseStatus: event.target.value})
                         }}
                       >
                         <MenuItem value="">All</MenuItem>
-                        <MenuItem value={"gst"}>GST</MenuItem>
-                        <MenuItem value={"cgst"}>CGST</MenuItem>
-                        <MenuItem value={"tax"}>Tax</MenuItem>
+                        <MenuItem value={"pur_status_received"}>Received</MenuItem>
+                        <MenuItem value={"pur_status_pending"}>Pending</MenuItem>
+                        <MenuItem value={"pur_status_ordered"}>Ordered</MenuItem>
                       </Select>
                     </FormControl>
                   </Typography>
                 </Grid>
 
-                <Grid  item  md={3}  sm={6}  xs={10} sx={prodList.select_input} >
+                <Grid  item  md={3}  sm={6}  xs={10} sx={purchaseList.selectInput} >
                   <Typography>
-                  <FormControl sx={  prodList.select_formcontrol } size="small" fullWidth >
+                  <FormControl sx={  purchaseList.selectFormcontrol } size="small" fullWidth >
+                      <InputLabel id="demo-select-small">Payment Status</InputLabel>
+                      <Select
+                        labelId="demo-select-small"
+                        id="demo-select-small"
+                        value={purchaseFilter.PaymentStatus}
+                        label="Payment Status"
+                        onChange={(event) => {
+                          setPurchaseFilter({...purchaseFilter, PaymentStatus: event.target.value})
+                        }}
+                      >
+                        <MenuItem value={"pay_status_all"}>All</MenuItem>
+                        <MenuItem value={"pay_status_paid"}>Paid</MenuItem>
+                        <MenuItem value={"pay_status_due"}>Due</MenuItem>
+                        <MenuItem value={"pay_status_partial"}>Partial</MenuItem>
+                        <MenuItem value={"pay_status_overdue"}>Overdue</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Typography>
+                </Grid>
+
+                {/* <Grid  item  md={3}  sm={6}  xs={10} sx={purchaseList.selectInput} >
+                  <Typography>
+                  <FormControl sx={  purchaseList.selectFormcontrol } size="small" fullWidth >
                       <InputLabel id="demo-select-small">Brand</InputLabel>
                       <Select
                         labelId="demo-select-small"
                         id="demo-select-small"
-                        value={productFilter.Brand}
+                        value={purchaseFilter.Brand}
                         label="Brand"
                         onChange={(event) => {
-                          setProductFilter({...productFilter, Brand: event.target.value})
+                          setPurchaseFilter({...purchaseFilter, Brand: event.target.value})
                         }}
                       >
                         <MenuItem value="">All</MenuItem>
@@ -620,7 +364,7 @@ const [productFilter, setProductFilter] = useState({ProductType: "",Category: ""
                       </Select>
                     </FormControl>
                   </Typography>
-                </Grid>
+                </Grid> */}
 
               </Grid>
             </AccordionDetails>
@@ -631,145 +375,94 @@ const [productFilter, setProductFilter] = useState({ProductType: "",Category: ""
       {/* ********Tabs Grid******** */}
 
       <>
-<br />
-<br />
-      <Grid sx={ prodStyle.prod_container } >
+      <br />
+      <br />
+
+      <Grid sx={ purchaseStyle.prodContainer } >
         <Box sx={{ typography: "body1" }}>    
             <Container>            
          {/* All Purchases Table */}
+         <Grid container spacing={10} sx={{ paddingTop: '15px' }}>
+                    <Grid item md={6} sm={6} xs={6}>
+                        <Typography variant="h6" >All users</Typography>
+                    </Grid>
+                    <Grid item md={6} sm={6} xs={6} >
+                        <Button sx={purchaseList.add} >
+                          {/* <Link to="useradd"  style={{textDecoration:'none', color: '#A5BECC'}}> */}
+                          <AddIcon /> Add
+                          {/* </Link> */}
+                          </Button>
+                    </Grid>
+                </Grid>
 
-              <TableContainer component={Paper} sx={{ padding: 3 }}>
+              <TableContainer component={Paper} sx={{ pt:5}}>
                 <Grid container sx={{ justifyContent: "center",}} >
                     <Grid>
-                      <Button sx={prodList.button_grp}>
+                      <Button sx={purchaseList.buttonGrp}>
                         <FaFileCsv />&ensp;Export to CSV
                       </Button>
-                      <Button sx={prodList.button_grp}>
+                      <Button sx={purchaseList.buttonGrp}>
                         <AiFillFileExcel />&ensp;Export to Excel
                       </Button>
-                      <Button sx={prodList.button_grp}>
+                      <Button sx={purchaseList.buttonGrp}>
                         <FaPrint />&ensp;Print
                       </Button>
-                      <Button sx={prodList.button_grp}>
+                      <Button sx={purchaseList.buttonGrp}>
                         <FaFilePdf />&ensp;Export to PDF
                       </Button>
                     </Grid>
                   </Grid>
                   
-                  <Table id="example2" sx={{padding:30, margin:0}} aria-label="simple table">
+                  <Table id="example2" sx={{}} aria-label="simple table">
                     <TableHead sx={{ fontWeight: "600", fontSize: "14px" }}>
-                      <StyledTableRow>
-                        <StyledTableCell >Action</StyledTableCell>
-                        <StyledTableCell >Date</StyledTableCell>
-                        <StyledTableCell >Location</StyledTableCell>
-                        <StyledTableCell sx={{  width: 180 }}>Unit Price</StyledTableCell>
-                        <StyledTableCell >Current Stock</StyledTableCell>
-                        <StyledTableCell sx={{  width: 180 }}>Current Stock Value (By purchase price)</StyledTableCell>
-                        <StyledTableCell sx={{  width: 180 }}>Current Stock Value (By sale price)</StyledTableCell>
-                        <StyledTableCell >Potential Profit</StyledTableCell>
-                        <StyledTableCell >Total Unit Sold</StyledTableCell>
-                        <StyledTableCell >Total Unit Tranferred</StyledTableCell>
-                        <StyledTableCell >Total Unit Adjusted</StyledTableCell>
-                      </StyledTableRow>
+                      <TableRow>
+                        <TableCell >Action</TableCell>
+                        <TableCell >Date</TableCell>
+                        <TableCell >Reference No</TableCell>
+                        <TableCell >Unit Location</TableCell>
+                        <TableCell >Supplier</TableCell>
+                        <TableCell >Purchase Status</TableCell>
+                        <TableCell >Payment Status</TableCell>
+                        <TableCell >Grand Total</TableCell>
+                        <TableCell >Payment Due</TableCell>
+                        <TableCell >Added By</TableCell>
+                      </TableRow>
                     </TableHead>
                     <TableBody>
                       {rows2.map((row) => (
-                        <TableRow key={row.sr_sku} >
-                          <TableCell component="th" scope="row">{row.sr_sku}</TableCell>
-                          <TableCell>{row.sr_product}</TableCell>
-                          <TableCell>{row.sr_location}</TableCell>
-                          <TableCell>
-                            {row.sr_unitprice}
-                            <br />
-
-                  {/* View Group Prices Modal */}
-
-                            <Button  variant="outlined"  onClick={handleClickModalOpen}  
-                            size="small"  sx={prodList.viewbtn} >
-                              View group prices
-                            </Button>
-                            <BootstrapDialog
-                              onClose={handleModalClose}
-                              aria-labelledby="customized-dialog-title"
-                              open={ModalOpen}
-                              sx={{
-                                "& .MuiDialog-paper": {
-                                  marginTop: "-330px",
-                                  transformOrigin: "0 0 0",
-                                },
-                              }}
-                            >
-                              <BootstrapDialogTitle
-                                id="customized-dialog-title"
-                                onClose={handleModalClose}
-                                sx={{ minWidth: 600 }}
-                              >
-                                Product
-                              </BootstrapDialogTitle>
-                              <DialogContent dividers>
-                                <Table>
-                                  <TableRow sx={{ backgroundColor: "#2dce89", m: 0, p: 0 }}>
-                                    <TableCell sx={{ color: "#fff" }}>
-                                      Default Selling Price (Inc. tax)
-                                    </TableCell>
-                                  </TableRow>
-                                  <TableRow sx={{ backgroundColor: "#d2d6de" }}>
-                                    <TableCell>₹ 2,343.75</TableCell>
-                                  </TableRow>
-                                </Table>
-                                <br />
-                              </DialogContent>
-                              <DialogActions>
-                                <Button  autoFocus  onClick={handleModalClose}  variant="outlined"
-                                  sx={{
-                                    backgroundColor: "#f4f4f4",
-                                    borderColor: "#ddd",
-                                    color: "#444",
-                                  }}
-                                >
-                                  Close
-                                </Button>
-                              </DialogActions>
-                            </BootstrapDialog>
-                          </TableCell>
-
-                {/* View Group Prices Modal Ends */}
-
-                          <TableCell>{row.sr_currentstock}</TableCell>
-                          <TableCell>{row.sr_currentstock_pp}</TableCell>
-                          <TableCell>{row.sr_currentstock_sp}</TableCell>
-                          <TableCell>{row.sr_potentialprofit}</TableCell>
-                          <TableCell>{row.sr_totalunitsold}</TableCell>
-                          <TableCell>{row.sr_totalunittransferred}</TableCell>
-                          <TableCell>{row.sr_totalunitadjusted}</TableCell>
-                        </TableRow>
+                        <StyledTableRow key={row.referenceNo} >
+                          <StyledTableCell component="th" scope="row">{row.action}</StyledTableCell>
+                          <StyledTableCell>{row.date}</StyledTableCell>
+                          <StyledTableCell>{row.referenceNo}</StyledTableCell>
+                          <StyledTableCell>{row.unitLocation}</StyledTableCell>
+                          <StyledTableCell>{row.supplier}</StyledTableCell>
+                          <StyledTableCell>{row.purchaseStatus}</StyledTableCell>
+                          <StyledTableCell>{row.paymentStatus}</StyledTableCell>
+                          <StyledTableCell>{row.grandTotal}</StyledTableCell>
+                          <StyledTableCell>{row.paymentDue}</StyledTableCell>
+                          <StyledTableCell>{row.addedBy}</StyledTableCell>
+                        </StyledTableRow>
                       ))}
-                      {/* <TableRow className="table2_total">
+                      <TableRow sx={{backgroundColor:"#cdcdcd"}}>
                         <TableCell
-                          colSpan={4}
+                          colSpan={7}
                           align="center"
-                          sx={{ fontWeight: 700, fontSize: 18, color: "black" }}
+                          sx={{ fontWeight: 700, fontSize: 18, color: "black",backgroundColor:"#cdcdcd"}}
                         >
                           Total:{" "}
                         </TableCell>
-                        <TableCell sx={{ color: "black", fontSize: 16 }}>18.00</TableCell>
-                        <TableCell sx={{ color: "black", fontSize: 16 }}>
-                          ₹ 30,078.16
+                        <TableCell sx={{ color: "black", fontSize: 16,backgroundColor:"#cdcdcd"}}>₹ 0.00</TableCell>
+                        <TableCell sx={{ color: "black", fontSize: 13, width:200,backgroundColor:"#cdcdcd" }}>
+                            Payment Due - ₹ 0.00
+                            <br />
+                            Purchase Return - ₹ 0.00
                         </TableCell>
-                        <TableCell sx={{ color: "black", fontSize: 16 }}>
-                          ₹ 46,687.50
-                        </TableCell>
-                        <TableCell sx={{ color: "black", fontSize: 16 }}>
-                          ₹ 16,609.34
-                        </TableCell>
-                        <TableCell sx={{ color: "black", fontSize: 16 }}>13.00</TableCell>
-                        <TableCell sx={{ color: "black", fontSize: 16 }}>0.00</TableCell>
-                        <TableCell sx={{ color: "black", fontSize: 16 }}>0.00</TableCell>
-                      </TableRow> */}
+                        <TableCell sx={{ color: "black", fontSize: 16,backgroundColor:"#cdcdcd" }}></TableCell>
+                      </TableRow>
                     </TableBody>
                   </Table>
                 </TableContainer>
-
+<br />
          {/* Stock Report Table Ends*/}
 </Container>
         </Box>
