@@ -1,10 +1,10 @@
 import './App.css';
-import List from "./List";
+import Create from "./Create";
 
 const App = () => {
   return (
     <div className="App">
-      <List />
+      <Create />
       <br />
     </div>
   );

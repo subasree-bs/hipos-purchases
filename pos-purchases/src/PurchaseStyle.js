@@ -35,6 +35,7 @@ export const purchaseList = {
         width: "97px",
         fontWeight: 600,
         mr: 1,
+        mb:1,
         backgroundColor: "#7009AB",
          color:"#A5BECC",
          "&:hover":{
@@ -54,7 +55,7 @@ export const purchaseList = {
 }
 
 export const purchaseStyle = {
-    prodContainer : {
+    purchaseContainer : {
         bgcolor: '#fff',
         height: 'max-content',
         borderTop: '5px solid #7009AB;',
@@ -63,23 +64,5 @@ export const purchaseStyle = {
         borderBottom: '0px',
         borderRadius: '10px',
         boxShadow: '6px 6px 6px 9px #dedbdbae',
-    },
-    prodSave : {
-        border: '1px solid #7009AB !important',
-        color: '#7009AB !important',
-        height: '40px !important',
-        fontWeight: '600 !important',
-        borderRadius: '7px !important',
-        width: '80px',
-        '&:hover' : {
-            backgroundColor: '#7009AB !important',
-            border: '0px !important',
-            color: '#fff !important',
-        },
-    },
-    prodGridContainer : {
-        marginTop: '10px',
-        marginBottom: '10px',
-        justifyContent: 'center',
     },
 }

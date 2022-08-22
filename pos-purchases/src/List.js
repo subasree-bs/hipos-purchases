@@ -242,14 +242,14 @@ PurchaseStatus: "",PaymentStatus:"",})
           <Accordion
             expanded={expanded === "panel1"}
             onChange={handleChangePanel("panel1")}
-            sx={ purchaseStyle.prodContainer}
+            sx={ purchaseStyle.purchaseContainer}
           >
             <AccordionSummary
               aria-controls="panel1d-content"
               id="panel1d-header"
             >
               <Typography sx={{ color: " #7009AB" }}>
-                <FilterAltIcon /> Filters
+                <FilterAltIcon sx={{p:0}} /> Filters
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -378,13 +378,12 @@ PurchaseStatus: "",PaymentStatus:"",})
       <br />
       <br />
 
-      <Grid sx={ purchaseStyle.prodContainer } >
+      <Grid sx={ purchaseStyle.purchaseContainer } >
         <Box sx={{ typography: "body1" }}>    
             <Container>            
-         {/* All Purchases Table */}
-         <Grid container spacing={10} sx={{ paddingTop: '15px' }}>
+                  <Grid container spacing={10} sx={{ paddingTop: '15px' }}>
                     <Grid item md={6} sm={6} xs={6}>
-                        <Typography variant="h6" >All users</Typography>
+                        <Typography variant="h6" >All Purchases</Typography>
                     </Grid>
                     <Grid item md={6} sm={6} xs={6} >
                         <Button sx={purchaseList.add} >
@@ -395,7 +394,7 @@ PurchaseStatus: "",PaymentStatus:"",})
                     </Grid>
                 </Grid>
 
-              <TableContainer component={Paper} sx={{ pt:5}}>
+              <TableContainer component={Paper} sx={{ }}>
                 <Grid container sx={{ justifyContent: "center",}} >
                     <Grid>
                       <Button sx={purchaseList.buttonGrp}>
@@ -411,7 +410,7 @@ PurchaseStatus: "",PaymentStatus:"",})
                         <FaFilePdf />&ensp;Export to PDF
                       </Button>
                     </Grid>
-                  </Grid>
+                </Grid>
                   
                   <Table id="example2" sx={{}} aria-label="simple table">
                     <TableHead sx={{ fontWeight: "600", fontSize: "14px" }}>
@@ -442,8 +441,20 @@ PurchaseStatus: "",PaymentStatus:"",})
                           <StyledTableCell>{row.paymentDue}</StyledTableCell>
                           <StyledTableCell>{row.addedBy}</StyledTableCell>
                         </StyledTableRow>
+                        
                       ))}
-                      <TableRow sx={{backgroundColor:"#cdcdcd"}}>
+                     
+                     
+                    </TableBody>
+                    {/* <StyledTableRow  >
+                          <StyledTableCell colSpan={7}>fgtrgtg</StyledTableCell>
+                      
+                          <StyledTableCell>gftrg</StyledTableCell>
+                          <StyledTableCell>bhtg</StyledTableCell>
+                          <StyledTableCell>tbhtr</StyledTableCell>
+                        </StyledTableRow> */}
+
+                    <TableRow sx={{backgroundColor:"#cdcdcd"}}>
                         <TableCell
                           colSpan={7}
                           align="center"
@@ -452,18 +463,18 @@ PurchaseStatus: "",PaymentStatus:"",})
                           Total:{" "}
                         </TableCell>
                         <TableCell sx={{ color: "black", fontSize: 16,backgroundColor:"#cdcdcd"}}>₹ 0.00</TableCell>
-                        <TableCell sx={{ color: "black", fontSize: 13, width:200,backgroundColor:"#cdcdcd" }}>
+                        <TableCell sx={{ color: "black", fontSize: 13, width:170,backgroundColor:"#cdcdcd" }}>
                             Payment Due - ₹ 0.00
                             <br />
                             Purchase Return - ₹ 0.00
                         </TableCell>
                         <TableCell sx={{ color: "black", fontSize: 16,backgroundColor:"#cdcdcd" }}></TableCell>
+
                       </TableRow>
-                    </TableBody>
+
                   </Table>
                 </TableContainer>
 <br />
-         {/* Stock Report Table Ends*/}
 </Container>
         </Box>
       </Grid>
