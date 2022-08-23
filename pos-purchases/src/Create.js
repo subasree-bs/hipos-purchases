@@ -28,10 +28,16 @@ export default function CustomizedAccordions() {
 // Filter - All Select Inputs
 const [purchaseAdd, setPurchaseAdd] = useState({BusinessLocation:"",})
 const [purchaseCreate, setPurchaseCreate] = useState({Supplier:"", RefNum:"",purchaseStatus: "",
-BusinessLocation:"",PayTerm:"",DiscountType:"",PurchaseTax:"",PaymentMethod:"",})
+BusinessLocation:"",PayTerm:"",DiscountType:"",PurchaseTax:"",PaymentMethod:"",PaymentAccount:"",})
 
+// Add Additional Expenses 
 const [hidden, setHidden] = useState(true);
 
+// Payment Method - Show respective grids
+
+const [shownAdvance, setShownAdvance] = useState(true);
+
+const [shownCash, setShownCash] = useState(true);
 
   return (
     <Box>
@@ -535,20 +541,20 @@ const [hidden, setHidden] = useState(true);
                         </Grid>
                     </Grid>
 
-                    <Grid item md={4}>
-                    </Grid>
+                    {/* <Grid item md={4}>
+                    </Grid> */}
 
                     <Grid  item  md={4}  sm={6}  xs={10} sx={purchaseList.selectInput} >
                         <Grid sx={{display:"flex"}}>
-                                {/* <Grid sx={{ fontSize: '24px',paddingLeft: '4px',paddingRight: '6px',paddingTop: '4px',
-                                margin: 'auto',border: '1px solid #B97DF0',width: '38px',height: '41px',
-                                borderRadius: '2px',backgroundColor: '#fff',color: '#7009AB', }}  ><CreditCardIcon />
-                                </Grid> */}
+                                <Grid sx={{ fontSize: '24px',paddingLeft: '4px',paddingRight: '6px',paddingTop: '4px',
+                                margin: 'auto',border: '1px solid #B97DF0',width: '32px',height: '41px',
+                                borderRadius: '2px',backgroundColor: '#fff',color: '#7009AB', }} >
+                                    <CreditCardIcon />
+                                </Grid>
                                 <FormControl sx={  purchaseCreate.selectFormcontrol } size="small" fullWidth >
                                     <InputLabel id="idPaymentMethod">Payment Method * </InputLabel>
                                 <Select
                                         labelId="demo-select-small" 
-                                        sx={{ml:-2}}
                                         id="demo-select-small"
                                         value={purchaseCreate.PaymentMethod}
                                         label="Payment Method *"
@@ -556,9 +562,10 @@ const [hidden, setHidden] = useState(true);
                                             setPurchaseCreate({...purchaseCreate, 
                                             PaymentMethod: event.target.value})
                                         }}
+                                         
                                         >
-                                            <MenuItem value="advance">Advance</MenuItem>
-                                            <MenuItem value="cash">Cash</MenuItem>
+                                            <MenuItem value="advance" onClick={() => setShownAdvance(s=>!s)}>Advance</MenuItem>
+                                            <MenuItem value="cash" onClick={() => setShownCash(s=>!s)}>Cash</MenuItem>
                                             <MenuItem value="card">Card</MenuItem>
                                             <MenuItem value="cheque">Cheque</MenuItem>
                                             <MenuItem value="bankTransfer">Bank Transfer</MenuItem>
@@ -573,9 +580,43 @@ const [hidden, setHidden] = useState(true);
                                         </Select>
                                 </FormControl>
                         </Grid>
-                {/* ****** Text Area - Payment note ****** */}
                         
                     </Grid>
+                    {! shownAdvance ? null : null}
+                    {!shownCash ?
+                        <Grid id="" container sx={{mt:3,ml:2}}>
+                            <Grid item md={3}>
+                                <Grid sx={{display:"flex"}}>
+                                    <Grid sx={{ fontSize: '24px',paddingLeft: '4px',paddingRight: '6px',paddingTop: '4px',
+                                    margin: 'auto',border: '1px solid #B97DF0',width: '32px',height: '41px',
+                                    borderRadius: '2px',backgroundColor: '#fff',color: '#7009AB', }} >
+                                        <CreditCardIcon />
+                                    </Grid>
+                                    <FormControl sx={  purchaseCreate.selectFormcontrol } size="small" fullWidth >
+                                        <InputLabel id="idPaymentMethod">Payment Account </InputLabel>
+                                    <Select
+                                            labelId="demo-select-small" 
+                                            id="demo-select-small"
+                                            value={purchaseCreate.PaymentAccount}
+                                            label="Payment Account"
+                                            onChange={(event) => {
+                                                setPurchaseCreate({...purchaseCreate, 
+                                                    PaymentAccount: event.target.value})
+                                            }}
+                                            
+                                            >
+                                                <MenuItem value="none">None</MenuItem>
+                                            </Select>
+                                    </FormControl>
+                            </Grid>
+                        
+                            </Grid>
+                        </Grid> 
+                        
+                        : null
+                    }
+                {/* ****** Text Area - Payment note ****** */}
+                                            
                     <Grid item md={12} sx={purchaseList.selectFormcontrol}  >
                             <Typography>Payment note</Typography>
                             <FormControl size="small" fullWidth sx={{border:"1px solid #B97DF0"}}>
@@ -586,13 +627,21 @@ const [hidden, setHidden] = useState(true);
                                     minRows={9}
                                 />
                             </FormControl>
-                        </Grid>
+                    </Grid>
+                    <Grid item md={10}>
+                </Grid>
+                <Grid item md={2} align="right">
+                    <Typography>Payment Due: 0.00</Typography>
+                    <br />
+                    <Button variant="contained" sx={{borderRadius:0}}>Save</Button>
+                </Grid>
+
                 </Grid>
                 
                 <br />
             </Grid>
         </Box>
-        <br /><br />
+        <br />
     </Box>
   );
 }
