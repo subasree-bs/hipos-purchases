@@ -273,9 +273,7 @@ PurchaseStatus: "",PaymentStatus:"",})
                         <MenuItem value="">All</MenuItem>
                         <MenuItem value={"none"}>None</MenuItem>
                         <MenuItem value={"xyz"}>XYZ (123456)</MenuItem>
-                        <MenuItem value={"juiceria"}>
-                          Juiceria (1234567)
-                        </MenuItem>
+                        <MenuItem value={"juiceria"}>Juiceria (1234567)</MenuItem>
                       </Select>
                     </FormControl>
                   </Typography>
@@ -371,8 +369,6 @@ PurchaseStatus: "",PaymentStatus:"",})
           </Accordion>
         </Grid>
       </Grid>
-
-      {/* ********Tabs Grid******** */}
 
       <>
       <br />
@@ -473,9 +469,9 @@ PurchaseStatus: "",PaymentStatus:"",})
                       </TableRow>
 
                   </Table>
-                </TableContainer>
-<br />
-</Container>
+              </TableContainer>
+      <br />
+    </Container>
         </Box>
       </Grid>
       </>

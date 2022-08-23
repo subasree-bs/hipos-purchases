@@ -18,6 +18,11 @@ export const purchaseList = {
         m: 1,
         borderRadius: 2,
     },
+    selectFormcontrolFlex:{
+        m: 1,
+        borderRadius: 2,
+        display:"flex",
+    },
     viewBtn:{
         fontSize: 9, 
         padding: "2px 1px",
@@ -64,5 +69,61 @@ export const purchaseStyle = {
         borderBottom: '0px',
         borderRadius: '10px',
         boxShadow: '6px 6px 6px 9px #dedbdbae',
+    },
+}
+export const purchaseCreate = {
+    disabledSearch:{
+        borderRadius: 0,
+        ml:0
+    },
+    addtl_table_p:{
+        p:1
+    },
+    grid_icons: {
+        fontSize: '24px',
+        paddingLeft: '4px',
+        paddingRight: '6px',
+        paddingTop: '4px',
+        margin: 'auto',
+        border: '1px solid #B97DF0',
+        width: '33px',
+        height: '41px',
+        borderRadius: '2px',
+        backgroundColor: '#fff',
+        color: '#7009AB',
+    },
+    uploadBtn : {
+        border:'1px solid #B97DF0 !important',
+        borderRadius: '7px !important',
+        width: '159px !important',
+        fontSize: '11px !important',
+        color: '#7009AB !important',
+        fontWeight: '600 !important',
+            '&:hover' : {
+                backgroundColor: '#7009AB !important',
+                color: '#fff !important',
+            },
+    },
+    container_more : {
+        marginTop: '20px',
+     marginBottom: '20px',
+      justifyContent: 'center'
+      
+     },
+     buttonAdd: {
+        backgroundColor: '#7009AB !important',
+        color: '#fff !important',
+        marginRight: '5px !important',
+        height: '40px !important',
+        padding: '10px !important',
+        fontRight: '600 !important',
+        borderRadius: '7px !important',
+        float: 'right !important',
+        border: '0px !important',
+        '& :hover' : {
+            backgroundColor: '#fff !important',
+            border: '1px solid #7009AB !important',
+            color: '#7009AB !important',
+        }
     },
 }
